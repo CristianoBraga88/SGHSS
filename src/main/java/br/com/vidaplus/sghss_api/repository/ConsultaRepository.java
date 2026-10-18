@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,9 +39,11 @@ public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
             @Param("fim") LocalDateTime fim
     );
 
-    // Busca consultas agendadas para hoje
-    @Query("SELECT c FROM Consulta c WHERE DATE(c.dataHora) = CURRENT_DATE")
-    List<Consulta> findConsultasHoje();
+    // Busca consultas agendadas para hoje (consulta portável entre bancos)
+    default List<Consulta> findConsultasHoje() {
+        LocalDate hoje = LocalDate.now();
+        return findByDataHoraBetween(hoje.atStartOfDay(), hoje.atTime(LocalTime.MAX));
+    }
 
     // Busca consultas por paciente e período
     @Query("SELECT c FROM Consulta c WHERE c.paciente = :paciente " +
