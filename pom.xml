@@ -13,21 +13,26 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sghss-api</name>
 	<description>Sistema de Gestão Hospitalar e Serviços de Saúde - API Backend</description>
-	<url/>
+	<url>https://github.com/CristianoBraga88/SGHSS</url>
 	<licenses>
-		<license/>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+		</license>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<name>Cristiano Braga</name>
+			<url>https://github.com/CristianoBraga88</url>
+		</developer>
 	</developers>
 	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
+		<connection>scm:git:https://github.com/CristianoBraga88/SGHSS.git</connection>
+		<url>https://github.com/CristianoBraga88/SGHSS</url>
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<springdoc.version>3.0.3</springdoc.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -76,6 +81,18 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+
+		<!-- Testes -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
