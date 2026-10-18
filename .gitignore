@@ -1,0 +1,23 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.sts4-cache/
+nbproject/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs e variáveis locais
+*.log
+.env
+application-local.properties
