@@ -9,7 +9,13 @@
   <img src="https://img.shields.io/badge/Spring%20Boot-4.0.0-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot"/>
   <img src="https://img.shields.io/badge/Spring%20Security-JWT-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" alt="Spring Security"/>
   <img src="https://img.shields.io/badge/MySQL-8-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
-  <img src="https://img.shields.io/badge/Maven-build-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven"/>
+  <img src="https://img.shields.io/badge/Docker-ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+  <img src="https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" alt="Swagger"/>
+</p>
+
+<p align="center">
+  <a href="https://github.com/CristianoBraga88/SGHSS/actions/workflows/ci.yml"><img src="https://github.com/CristianoBraga88/SGHSS/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg" alt="Licença MIT"/></a>
 </p>
 
 <p align="center">
@@ -17,6 +23,7 @@
   <a href="#-funcionalidades">Funcionalidades</a> •
   <a href="#-arquitetura">Arquitetura</a> •
   <a href="#-como-executar">Como executar</a> •
+  <a href="#-documentação-da-api-swagger">Swagger</a> •
   <a href="#-endpoints">Endpoints</a> •
   <a href="#-segurança">Segurança</a> •
   <a href="#-autor">Autor</a>
@@ -111,19 +118,29 @@ classDiagram
 - **MySQL**
 - **Lombok**
 - **ModelMapper**
+- **springdoc-openapi** (Swagger UI)
+- **JUnit 5** + **H2** (testes)
+- **Docker** / **Docker Compose**
+- **GitHub Actions** (integração contínua)
 - **Maven** (wrapper incluso)
 
 ---
 
 ## ⚙️ Como executar
 
-### Pré-requisitos
+### Opção 1 — Docker (recomendado)
 
-- [JDK 17+](https://adoptium.net/)
-- [MySQL 8+](https://dev.mysql.com/downloads/) em execução na porta `3306`
-- Git
+Com o [Docker](https://www.docker.com/) instalado, basta um comando para subir a API e o MySQL:
 
-### Passo a passo
+```bash
+git clone https://github.com/CristianoBraga88/SGHSS.git
+cd SGHSS
+docker compose up --build
+```
+
+### Opção 2 — Localmente
+
+**Pré-requisitos:** [JDK 17+](https://adoptium.net/) e [MySQL 8+](https://dev.mysql.com/downloads/) rodando na porta `3306`.
 
 ```bash
 # 1. Clone o repositório
@@ -140,7 +157,23 @@ export JWT_SECRET=uma_chave_secreta_com_pelo_menos_32_caracteres
 mvnw.cmd spring-boot:run      # Windows
 ```
 
-O banco `sghss_db` é criado automaticamente na primeira execução e a API fica disponível em **http://localhost:8080**.
+Em ambos os casos, a API fica disponível em **http://localhost:8080** e o banco `sghss_db` é criado automaticamente.
+
+### Variáveis de ambiente
+
+| Variável | Descrição | Padrão |
+|---|---|---|
+| `DB_USERNAME` | Usuário do MySQL | `root` |
+| `DB_PASSWORD` | Senha do MySQL | — |
+| `JWT_SECRET` | Chave de assinatura dos tokens (mín. 32 caracteres) | chave de desenvolvimento |
+
+### Executando os testes
+
+Os testes usam um banco **H2 em memória**, sem necessidade de MySQL:
+
+```bash
+./mvnw test
+```
 
 ### Usuário administrador padrão
 
@@ -151,6 +184,17 @@ Na primeira inicialização, um usuário administrador é criado automaticamente
 | `admin@hospital.com` | `admin123` |
 
 > ⚠️ Altere essa senha em qualquer ambiente que não seja de desenvolvimento.
+
+---
+
+## 📖 Documentação da API (Swagger)
+
+Com a aplicação rodando, acesse a documentação interativa:
+
+- **Swagger UI:** http://localhost:8080/swagger-ui.html
+- **OpenAPI JSON:** http://localhost:8080/v3/api-docs
+
+Para testar rotas protegidas, faça login em `/api/auth/login`, copie o token e clique em **Authorize** no Swagger.
 
 ---
 
@@ -231,11 +275,12 @@ Authorization: Bearer <seu_token>
 
 ## 🗺️ Próximos passos
 
+- [x] Documentação interativa com Swagger / OpenAPI
+- [x] Containerização com Docker / Docker Compose
+- [x] Pipeline de CI com GitHub Actions
 - [ ] Endpoints REST para consultas e prontuários
-- [ ] Documentação interativa com Swagger / OpenAPI
-- [ ] Testes unitários e de integração
-- [ ] Containerização com Docker / Docker Compose
-- [ ] Pipeline de CI com GitHub Actions
+- [ ] Autorização por perfil (ADMIN, PROFISSIONAL, PACIENTE) nas rotas
+- [ ] Ampliar cobertura de testes unitários e de integração
 
 ---
 
@@ -244,6 +289,12 @@ Authorization: Bearer <seu_token>
 **Cristiano Braga**
 
 [![GitHub](https://img.shields.io/badge/GitHub-CristianoBraga88-181717?style=flat&logo=github)](https://github.com/CristianoBraga88)
+
+---
+
+## 📝 Licença
+
+Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
