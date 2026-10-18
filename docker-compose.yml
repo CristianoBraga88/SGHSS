@@ -1,0 +1,33 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: sghss-db
+    environment:
+      MYSQL_DATABASE: sghss_db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-sghss123}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PASSWORD:-sghss123}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    container_name: sghss-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/sghss_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      DB_USERNAME: root
+      DB_PASSWORD: ${DB_PASSWORD:-sghss123}
+      JWT_SECRET: ${JWT_SECRET:-troqueEstaChaveSecretaPorUmaComPeloMenos32Caracteres}
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
